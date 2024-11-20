@@ -5,9 +5,10 @@ const UserList = ({ users, onEdit, onDelete }) => (
   <div className="user-list-container">
     <h2>User List</h2>
 
-    {/* Table to display user information and actions */}
+    {/* Table Container */}
     <div className="table-container">
       <table className="user-table">
+        {/* Table Header */}
         <thead>
           <tr>
             <th>ID</th>
@@ -17,20 +18,21 @@ const UserList = ({ users, onEdit, onDelete }) => (
           </tr>
         </thead>
 
+        {/* Table Body */}
         <tbody>
-          {/* Render each user as a row in the table */}
           {users.map((user) => (
             <tr key={user.id}>
+              {/* Display user data */}
               <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>
-                {/* Edit button triggers onEdit callback with the user object */}
+                {/* Edit Button: Triggers the onEdit function passed as prop */}
                 <button className="edit-btn" onClick={() => onEdit(user)}>
                   Edit
                 </button>
                 
-                {/* Delete button triggers onDelete callback with the user ID */}
+                {/* Delete Button: Triggers the onDelete function passed as prop */}
                 <button className="delete-btn" onClick={() => onDelete(user.id)}>
                   Delete
                 </button>

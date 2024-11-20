@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
 const UserForm = ({ user, onSave }) => {
-  // Initialize form data state with empty fields
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,8 +9,8 @@ const UserForm = ({ user, onSave }) => {
     phone: '',
   });
 
-  // Populate form fields if a user object is passed in (for editing an existing user)
   useEffect(() => {
+    // If user is passed (editing), populate form fields with the existing user data
     if (user) {
       setFormData({
         name: user.name,
@@ -20,31 +19,30 @@ const UserForm = ({ user, onSave }) => {
         phone: user.phone,
       });
     }
-  }, [user]);
+  }, [user]); // Only run this effect if the user prop changes (e.g. when editing a user)
 
-  // Handle input changes and update the formData state accordingly
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update form data on input change
   };
 
-  // Submit form data if all fields are valid
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isValidForm()) {
-      onSave(formData); // Trigger the save action in the parent component
+      // Only proceed if the form is valid (all fields filled)
+      onSave({ ...formData, id: user ? user.id : undefined }); // Pass user id for editing, or undefined for new user
     }
   };
 
-  // Check if all required form fields are filled
   const isValidForm = () => {
+    // Check if all fields are filled out
     const { name, email, username, phone } = formData;
     return name && email && username && phone;
   };
 
   return (
     <form onSubmit={handleSubmit} className="user-form">
-      <h2 className="heading">{user ? 'Edit User' : 'Add User'}</h2>
+      <h2 className="heading">{user ? 'Edit User' : 'Add User'}</h2> {/* Dynamic form title */}
       <input
         type="text"
         name="name"
@@ -78,7 +76,7 @@ const UserForm = ({ user, onSave }) => {
         required
       />
       <button type="submit" className="submit-btn">
-        {user ? 'Save Changes' : 'Add User'}
+        {user ? 'Save Changes' : 'Add User'} {/* Change button text based on context */}
       </button>
     </form>
   );
